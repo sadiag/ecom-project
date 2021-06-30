@@ -13,8 +13,9 @@
       <div class="row row-sm">
       <div class="card pd-20 pd-sm-40">
           <h6 class="card-body-title">Update products</h6>
-          <form action = "{{ route('store.products') }}" method ="POST" enctype="multipart/form-data">
+          <form action = "{{ route('update.products') }}" method ="POST" enctype="multipart/form-data">
           @csrf
+          <input type="hidden" name="id" value="{{ $product->id }}">
          
 
           <div class="form-layout">
@@ -129,6 +130,21 @@
                   
                 </div>
                 </div><!-- col-4 -->
+
+                </div>
+                <button class ="btn btn-info mg-r-5" type="submit">Update Data</button>
+                </form>
+                <form action="{{ route('update-image') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+
+                <input type="hidden" name="id" value="{{ $product->id }}">
+                <input type="hidden" name="img_one" value="{{ $product->image_one }}">
+                <input type="hidden" name="img_two" value="{{ $product->image_two }}">
+                <input type="hidden" name="img_three" value="{{ $product->image_three }}">
+
+    
+                <div class="row row-sm mt-5">
+
                <div class="col-lg-4">
                 <div class="form-group">
                   <label class="form-control-label">Main thambnail: <span class="tx-danger">*</span></label>
@@ -196,7 +212,7 @@
            
 
             <div class="form-layout-footer">
-              <button class="btn btn-info mg-r-5">Update product</button>
+              <button class="btn btn-info mg-r-5">Update Image</button>
               </div><!-- form-layout-footer -->
             </form>
               

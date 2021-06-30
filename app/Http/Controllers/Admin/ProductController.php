@@ -100,4 +100,103 @@ public function editProduct($product_id){
     return view('admin.product.edit',compact('product','categories','brands'));
 
 }
+// ******update product******
+public function updateProduct(Request $request){
+
+    $product_id = $request->id;
+    Product::findOrFail($product_id)->Update([
+        'category_id' => $request->category_id,
+        'brand_id' => $request->brand_id,
+        'product_name' => $request->product_name,
+        'product_slug' => strtolower(str_replace(' ','-',$request->product_name)),
+        'product_code' => $request->product_code,
+        'price' => $request->price,
+        'product_quantity' => $request->product_quantity,
+        'short_description' => $request->short_description,
+        'long_description' => $request->long_description,
+        'update_at' => Carbon::now(),
+
+    ]);
+
+    return Redirect()->route('manage-products')->with('success', 'Product succesfully updated');
+
+}
+// *******update image*****
+
+    public function updateImage(Request $request){ 
+
+    $product_id = $request->id;
+    $old_one = $request->img_one;
+    $old_two = $request->img_two;
+    $old_three = $request->img_three;
+
+    if ($request->has('image_one')){ 
+        unlink($old_one); 
+
+        $imag_one =  $request->file('image_one');
+        $name_gen = hexdec(uniqid()).'.'.$imag_one->getClientOriginalExtension();
+        Image::make($imag_one)->resize(270,270)->save('frontend/img/product/upload/'.$name_gen);
+        $img_url1 = 'frontend/img/product/upload/'.$name_gen;
+
+        Product::findOrFail($product_id)->Update([
+            'image_one' => $img_url1,
+            'update_at' => Carbon::now(),
+            
+    ]);
+
+    return Redirect()->route('manage-products')->with('success', 'Image succesfully Updated');
+
+}
+
+if ($request->has('image_two')){ 
+    unlink($old_two); 
+
+    $imag_one =  $request->file('image_two');
+    $name_gen = hexdec(uniqid()).'.'.$imag_one->getClientOriginalExtension();
+    Image::make($imag_one)->resize(270,270)->save('frontend/img/product/upload/'.$name_gen);
+    $img_url1 = 'frontend/img/product/upload/'.$name_gen;
+
+    Product::findOrFail($product_id)->Update([
+        'image_two' => $img_url1,
+        'update_at' => Carbon::now(),
+        
+]);
+
+return Redirect()->route('manage-products')->with('success', 'Image succesfully Updated');
+
+}
+if ($request->has('image_three')){ 
+
+    unlink($old_three);
+
+    $imag_one =  $request->file('image_three');
+    $name_gen = hexdec(uniqid()).'.'.$imag_one->getClientOriginalExtension();
+    Image::make($imag_one)->resize(270,270)->save('frontend/img/product/upload/'.$name_gen);
+    $img_url1 = 'frontend/img/product/upload/'.$name_gen;
+
+    Product::findOrFail($product_id)->Update([
+        'image_three' => $img_url1,
+        'update_at' => Carbon::now(),
+        
+]);
+
+return Redirect()->route('manage-products')->with('success', 'Image succesfully Updated');
+
+}
+}
+// **********delete product*******
+
+public function delete($product_id){ 
+    $image =  Product::findOrFail($product_id);
+    $img_one = $image->image_one;
+    $img_two = $image->image_two;
+    $img_three = $image->image_three;
+    unlink($img_one);
+    unlink($img_two);
+    unlink($img_three);
+
+    Product::findOrFail($product_id)->delete();
+    return Redirect()->back()->with->with('delete', 'succesfully Deleted');
+
+}
 }

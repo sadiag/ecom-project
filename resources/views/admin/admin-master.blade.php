@@ -83,6 +83,7 @@
           </div><!-- menu-item -->
 
         </a><!-- sl-menu-link -->
+
         <a href="{{ route('admin.brand') }}" class="sl-menu-link @yield('brand')">
           <div class="sl-menu-item">
             <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
@@ -101,6 +102,13 @@
           <li class="nav-item"><a href="{{ route('add-products') }}" class="nav-link @yield('add-products')">Add products</a></li>
           <li class="nav-item"><a href="{{ route('manage-products') }}" class="nav-link @yield('manage-products')">Manage product</a></li>
         </ul> 
+
+        <a href="{{ route('admin.coupon') }}" class="sl-menu-link @yield('coupon')">
+          <div class="sl-menu-item">
+            <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
+            <span class="menu-item-label">coupon</span>
+          </div><!-- menu-item -->
+        </a><!-- sl-menu-link -->
 
         
       </div><!-- sl-sideleft-menu -->
@@ -371,7 +379,7 @@
     <script src="{{ asset('backend') }}/js/starlight.js"></script>
     <script src="{{ asset('backend') }}/js/ResizeSensor.js"></script>
     <script src="{{ asset('backend') }}/js/dashboard.js"></script>
-    <script src="{{ asset('backend') }}/lib/highlightjs/highlight.pack.js"></script>
+    <script src="{{ asset('backend') }}/lifb/highlightjs/highlight.pack.js"></script>
     <script src="{{ asset('backend') }}/lib/datatables/jquery.dataTables.js"></script>
     <script src="{{ asset('backend') }}/lib/datatables-responsive/dataTables.responsive.js"></script>
     <script src="{{ asset('backend') }}/lib/select2/js/select2.min.js"></script>

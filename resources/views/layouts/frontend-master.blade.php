@@ -32,7 +32,7 @@
     <!-- Humberger Begin -->
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
-        <div class="humberger__menu__logo">
+        <div class="humberger__menu__logo">all
             <a href="#"><img src="{{ asset('frontend') }}/img/logo.png" alt=""></a>
         </div>
         <div class="humberger__menu__cart">
@@ -56,6 +56,7 @@
                 <a href="#"><i class="fa fa-user"></i> Login</a>
             </div>
         </div>
+
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
                 <li class="active"><a href="./index.html">Home</a></li>
@@ -127,6 +128,14 @@
             </div>
         </div>
         <div class="container">
+        @if(session('cart'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>{{session('cart')}}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                @endif
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
@@ -153,6 +162,12 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="header__cart">
+                    @php
+                    $total = App\Cart::all()->where('user_ip',request()->ip())->sum
+                    (function($t){
+                        return $t->price *  $t->product_qty;
+                    });
+                    @endphp
                         <ul>
                             <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
                             <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
@@ -175,20 +190,17 @@
                     <div class="hero__categories">
                         <div class="hero__categories__all">
                             <i class="fa fa-bars"></i>
-                            <span>All departments</span>
+                            <span>All Category</span>
                         </div>
+                        @php
+                        $categories = App\Category::latest()->get();
+                        @endphp
+
                         <ul>
-                            <li><a href="#">Fresh Meat</a></li>
-                            <li><a href="#">Vegetables</a></li>
-                            <li><a href="#">Fruit & Nut Gifts</a></li>
-                            <li><a href="#">Fresh Berries</a></li>
-                            <li><a href="#">Ocean Foods</a></li>
-                            <li><a href="#">Butter & Eggs</a></li>
-                            <li><a href="#">Fastfood</a></li>
-                            <li><a href="#">Fresh Onion</a></li>
-                            <li><a href="#">Papayaya & Crisps</a></li>
-                            <li><a href="#">Oatmeal</a></li>
-                            <li><a href="#">Fresh Bananas</a></li>
+                        @foreach($categories as $row)
+                            <li><a href="#">{{ $row->category_name }}</a></li>
+
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -267,6 +279,7 @@
                             <a href="#"><i class="fa fa-instagram"></i></a>
                             <a href="#"><i class="fa fa-twitter"></i></a>
                             <a href="#"><i class="fa fa-pinterest"></i></a>
+                            
                         </div>
                     </div>
                 </div>
