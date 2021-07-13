@@ -33,13 +33,15 @@
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">all
-            <a href="#"><img src="{{ asset('frontend') }}/img/logo.png" alt=""></a>
+            <a href="{{ url('/') }}"><img src="{{ asset('frontend') }}/img/logo.png" alt=""></a>
         </div>
         <div class="humberger__menu__cart">
+        
             <ul>
                 <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
                 <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
             </ul>
+
             <div class="header__cart__price">item: <span>$150.00</span></div>
         </div>
         <div class="humberger__menu__widget">
@@ -120,14 +122,17 @@
                                 </ul>
                             </div>
                             <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i> Login</a>
+    
+                           
+                                <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login</a>
+                                <a href="{{ route('register') }}"><i class="fa fa-user"></i> Register</a>
+                            
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container">
         @if(session('cart'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>{{session('cart')}}</strong>
@@ -136,16 +141,17 @@
                 </button>
                 </div>
                 @endif
-            <div class="row">
+                <div class="container">
+                <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="{{ asset('frontend') }}/img/logo.png" alt=""></a>
+                        <a href="{{ url('/') }}"><img src="{{ asset('frontend') }}/img/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="./index.html">Home</a></li>
+                            <li class="active"><a href="{{ url('/') }}">Home</a></li>
                             <li><a href="./shop-grid.html">Shop</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="header__menu__dropdown">
@@ -164,15 +170,19 @@
                     <div class="header__cart">
                     @php
                     $total = App\Cart::all()->where('user_ip',request()->ip())->sum
-                    (function($t){
-                        return $t->price *  $t->product_qty;
+                    (function($t)
+                    {
+                        return $t->price * $t->product_qty;
                     });
+                    $quantity = App\Cart::where('user_ip',request()->ip())->sum('product_qty');
+                    $wishqty = App\Wishlist::where('user_id',Auth::id())->get();
                     @endphp
                         <ul>
-                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            <li><a href="{{ url('wishlist') }}"><i class="fa fa-heart"></i> <span>{{ count($wishqty) }}</span></a></li>
+                            <li><a href="{{ url('cart') }}"><i class="fa fa-shopping-bag">
+                            </i> <span>{{ $quantity }}</span></a></li>
                         </ul>
-                        <div class="header__cart__price">item: <span>$150.00</span></div>
+                        <div class="header__cart__price">item: <span>{{ $total }}</span></div>
                     </div>
                 </div>
             </div>
@@ -183,49 +193,6 @@
     </header>
     <!-- Header Section End -->
     
-  <section class="hero">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="hero__categories">
-                        <div class="hero__categories__all">
-                            <i class="fa fa-bars"></i>
-                            <span>All Category</span>
-                        </div>
-                        @php
-                        $categories = App\Category::latest()->get();
-                        @endphp
-
-                        <ul>
-                        @foreach($categories as $row)
-                            <li><a href="#">{{ $row->category_name }}</a></li>
-
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-9">
-                    <div class="hero__search">
-                        <div class="hero__search__form">
-                            <form action="#">
-                                <div class="hero__search__categories">
-                                    All Categories
-                                    <span class="arrow_carrot-down"></span>
-                                </div>
-                                <input type="text" placeholder="What do yo u need?">
-                                <button type="submit" class="site-btn">SEARCH</button>
-                            </form>
-                        </div>
-                        <div class="hero__search__phone">
-                            <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
-                            </div>
-                            <div class="hero__search__phone__text">
-                                <h5>+65 11.188.888</h5>
-                                <span>support 24/7 time</span>
-                            </div>
-                        </div>
-                    </div>
 
    @yield('content')
 
@@ -236,7 +203,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__about__logo">
-                            <a href="./index.html"><img src="{{ asset('frontend') }}/img/logo.png" alt=""></a>
+                            <a href="{{ url('/') }}"><img src="{{ asset('frontend') }}/img/logo.png" alt=""></a>
                         </div>
                         <ul>
                             <li>Address: 60-49 Road 11378 New York</li>

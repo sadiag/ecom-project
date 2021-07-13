@@ -25,6 +25,7 @@ class CouponController extends Controller
 
         Coupon::insert([
             'coupon_name' => strtoupper($request->coupon_name),
+            'discount' => $request->discount,
             'created_at' => Carbon::now()
 
         ]);

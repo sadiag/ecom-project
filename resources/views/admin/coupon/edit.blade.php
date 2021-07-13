@@ -10,7 +10,7 @@
 
       <div class="sl-pagebody">
       <div class="row row-sm">
-          
+
         <div class="col-md-8 m-auto">
             <div class="card">
                 <div class="card-header">Update coupon
@@ -25,25 +25,25 @@
                 </button>
                 </div>
                 @endif
-                <form action="{{route('update.coupon')}}" method="POST"> 
+                <form action="{{route('update.coupon')}}" method="POST">
                 @csrf
-                <input type="hidden" name = "id" value="{{ $coupon->id }}" > 
-    
-            
+                <input type="hidden" name = "id" value="{{ $coupon->id }}" >
+
+
     <div class="form-group">
     <label for="exampleInputEmail1">coupon Name</label>
      <input type="text" name="coupon_name" class="form-control @error('coupon_name') is-invalid @enderror"
     id="exampleInputEmail1" aria-describedby="emailHelp" value="{{ $coupon->coupon_name }}">
-   
-   
+
+
     @error('coupon_name')
     <span class="text_danger">{{$message}}</span>
     @enderror
-   
+
     </div>
     <button type="submit" class="btn btn-primary">update Coupon</button>
     </form>
-    
+
     </div>
     </div>
     </div>
@@ -51,4 +51,3 @@
     </div>
 
 @endsection
-
